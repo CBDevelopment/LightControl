@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extras %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+<section class="main">
+    <div class="pickForm">
+        <form method="post">
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+            <div class="stripType">
+                {{ form.which_strip | as_crispy_field }}
+            </div>
+            <br>
+            <div class="onOff">
+                {{ form.on_off | as_crispy_field }}
+            </div>
+            <br>
+            <div class="effectType">
+                {{ form.which_effect | as_crispy_field }}
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
