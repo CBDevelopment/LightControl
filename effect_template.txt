@@ -1,0 +1,7 @@
+import sys
+# Write the effect here by defining a function with the same name as the file
+def example(pwm_pin, num_pixels):
+    pass
+# End effect code
+if __name__ == '__main__':
+    globals()[sys.argv[1]](sys.argv[2], sys.argv[3])

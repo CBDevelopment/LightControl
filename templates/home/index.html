@@ -42,3 +42,26 @@
     </div>
 </section>
 {% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', run);
+    function run() {
+        var onOff = document.getElementById('id_on_off');
+        const effectsList = document.getElementById('div_id_which_effect');
+        const effectSelect = document.getElementById('id_which_effect');
+
+        onOff.addEventListener("click", function() {
+            if (onOff.checked == false) {
+                effectsList.style.display = 'none';
+                effectSelect.required = false;
+                console.log("Effects hidden");
+            } else {
+                effectsList.style.display = 'block';
+                effectSelect.required = true;
+                console.log("Effects shown");
+            }
+        });
+    }
+</script>
+{% endblock %}
