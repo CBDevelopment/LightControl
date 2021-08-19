@@ -18,6 +18,8 @@ def execute_effect(filename, pwm_pin, num_pixels):
     # Windows
     # effect_command = f'python {filename}.py {filename} {pwm_pin} {num_pixels}'
     # Linux
+    off_command = f'sudo python off.py off {pwm_pin} {num_pixels}'
+    os.system(off_command)
     effect_command = f'sudo python {filename}.py {filename} {pwm_pin} {num_pixels}'
     os.system(effect_command) # add sudo?
 
