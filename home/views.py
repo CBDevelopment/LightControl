@@ -15,7 +15,10 @@ import threading
 # Create your views here.
 def execute_effect(filename, pwm_pin, num_pixels):
     os.chdir(settings.MEDIA_ROOT / 'effects')
-    effect_command = f'python {filename}.py {filename} {pwm_pin} {num_pixels}'
+    # Windows
+    # effect_command = f'python {filename}.py {filename} {pwm_pin} {num_pixels}'
+    # Linux
+    effect_command = f'sudo python {filename}.py {filename} {pwm_pin} {num_pixels}'
     os.system(effect_command) # add sudo?
 
 def run_effect(strip, effect):
@@ -24,13 +27,18 @@ def run_effect(strip, effect):
         effect_object = Effects.objects.filter(title=effect)[0].effect_file.path
     else:
         effect_object = Effects.objects.filter(title="Off")[0].effect_file.path
-    print(effect_object)
-    file_name = effect_object.split('\\')[-1].split('.')[0]
-    print(file_name)
+    # print(effect_object)
+    # Windows
+    # file_name = effect_object.split('\\')[-1].split('.')[0]
+    # Linux
+    file_name = effect_object.split('/')[-1].split('.')[0]
+    # print(file_name)
     pwm_pin = strip_object[0].pwm_pin
     num_pixels = strip_object[0].num_pixels
     thread = threading.Thread(target=execute_effect, args=(file_name,pwm_pin,num_pixels))
     thread.start()
+    for thread in threading.enumerate(): 
+        print("THREAD:" + thread.name)
     
 
 def index(request):
