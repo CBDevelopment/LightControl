@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from .models import Effects, LightStrip
 
 import os
+import glob
 
 from django.conf import settings
 from pathlib import Path
@@ -18,10 +19,36 @@ def execute_effect(filename, pwm_pin, num_pixels):
     # Windows
     # effect_command = f'python {filename}.py {filename} {pwm_pin} {num_pixels}'
     # Linux
-    off_command = f'sudo python off.py off {pwm_pin} {num_pixels}'
-    os.system(off_command)
     effect_command = f'sudo python {filename}.py {filename} {pwm_pin} {num_pixels}'
-    os.system(effect_command) # add sudo?
+    os.system(effect_command)
+
+def check_for_open_process(pin):
+    os.chdir(settings.MEDIA_ROOT / 'effects' / 'logs')
+    openeffects = glob.glob('*.txt')
+    print("OPEN EFFECTS")
+    print(openeffects)
+    for effect in openeffects:
+        if effect == f"OpenEffect{pin}.txt":
+            return True
+    return False
+
+def kill_process(pin):
+    os.chdir(settings.MEDIA_ROOT / 'effects' / 'logs')
+    with open(f'OpenEffect{pin}.txt', 'r') as reader:
+        pids = reader.readlines()
+        pid = int(pids[0])
+        # Windows
+        # kill_command = f"Taskkill /PID {pid} /F"
+        # Linux
+        kill_command = f"sudo kill -9 {pid}"
+        print(f"KILLING PROCESS {pid}")
+        sudoPassword = "rpi2021"
+        os.system('echo %s|sudo -S %s' % (sudoPassword, kill_command))
+    if os.path.exists(f"OpenEffect{pin}.txt"):
+        os.remove(f"OpenEffect{pin}.txt")
+    else:
+        print("The file does not exist")
+
 
 def run_effect(strip, effect):
     strip_object = LightStrip.objects.filter(title=strip)
@@ -37,10 +64,15 @@ def run_effect(strip, effect):
     # print(file_name)
     pwm_pin = strip_object[0].pwm_pin
     num_pixels = strip_object[0].num_pixels
+    
+    if check_for_open_process(pwm_pin):
+        # Kill process
+        kill_process(pwm_pin)
+        execute_effect("off", pwm_pin, num_pixels)
+    # Add the following process to a model to track which strip has an effect playing
     thread = threading.Thread(target=execute_effect, args=(file_name,pwm_pin,num_pixels))
+    thread.daemon = True
     thread.start()
-    for thread in threading.enumerate(): 
-        print("THREAD:" + thread.name)
     
 
 def index(request):

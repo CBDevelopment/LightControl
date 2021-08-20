@@ -1,0 +1,72 @@
+$background: #33658A;
+$interface: #CCDAD1;
+$nav-color: #B66D0D;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: $background;
+    font-size: 12px;
+
+    nav {
+        font-size: 24px;
+        padding: 2em;
+        background-color: $nav-color;
+
+        ul {
+            list-style-type: none;
+
+            li {
+                a {
+                    text-decoration: none;
+                    color: black;
+
+                    &:hover {
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.main {
+    background-color: $interface;
+    margin-left: 5%;
+    margin-right: 5%;
+    height: 100vh;
+
+    .pickForm {
+        padding: 10em;
+
+        form {
+            padding: 0em 2em;
+
+            label { 
+                font-size: 18px;
+            }
+        }
+    }
+
+    #div_id_which_effect {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .main {
+        margin-left: 2%;
+        margin-right: 2%;
+
+        .pickForm {
+            padding: 2em;
+
+            form { 
+                padding: 1em;
+            }
+        }
+    }
+}

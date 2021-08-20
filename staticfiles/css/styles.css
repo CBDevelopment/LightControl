@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #33658A;
+  font-size: 12px;
+}
+
+body nav {
+  font-size: 24px;
+  padding: 2em;
+  background-color: #B66D0D;
+}
+
+body nav ul {
+  list-style-type: none;
+}
+
+body nav ul li a {
+  text-decoration: none;
+  color: black;
+}
+
+body nav ul li a:hover {
+  color: white;
+}
+
+.main {
+  background-color: #CCDAD1;
+  margin-left: 5%;
+  margin-right: 5%;
+  height: 100vh;
+}
+
+.main .pickForm {
+  padding: 10em;
+}
+
+.main .pickForm form {
+  padding: 0em 2em;
+}
+
+.main .pickForm form label {
+  font-size: 18px;
+}
+
+.main #div_id_which_effect {
+  display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .main {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+  .main .pickForm {
+    padding: 2em;
+  }
+  .main .pickForm form {
+    padding: 1em;
+  }
+}
+/*# sourceMappingURL=styles.css.map */
