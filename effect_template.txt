@@ -1,5 +1,8 @@
 import sys
 import os
+import board
+import neopixel
+import adafruit_fancyled.adafruit_fancyled as fancy
 # Write the effect here by defining a function with the same name as the file
 def example(pwm_pin, num_pixels):
     # Pin possiblities
@@ -14,6 +17,7 @@ def example(pwm_pin, num_pixels):
     with open(f'logs/OpenEffect{pwm_pin}.txt', 'w') as f:
         f.write(str(pid))
 
+    NUM_PIXELS = int(num_pixels)
     pixels = neopixel.NeoPixel(pins[str(pwm_pin)], NUM_PIXELS, brightness=1.0, auto_write=False)
     # auto_write False requires that pixels.show() be called to update the neopixels
 
